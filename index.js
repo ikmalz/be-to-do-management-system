@@ -17,15 +17,10 @@ var userTaskRouter = require('./routes/usertask');
 // Create Express App
 var app = express();
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -58,11 +53,13 @@ app.use(function (err, req, res) {
 // Set port
 const port = process.env.APP_PORT || 4000;
 
-const portCon = process.env.APP_PORT;
+const env = process.env.ENV_TYPE || 'production';
 
-// Start server
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+if (env === 'development') {
+  // Start server
+  app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+  });
+}
 
 module.exports = app;
